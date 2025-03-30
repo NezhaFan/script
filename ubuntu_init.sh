@@ -1,5 +1,12 @@
 #!/bin/sh
 
+envfile="$HOME/.profile"
+
+# 默认环境变量文件 ~/.profile
+if [ ! -d "$envfile" ]; then
+  touch "$envfile"
+fi
+
 # 更新包列表
 echo "正在更新包列表..."
 sudo apt update
@@ -40,6 +47,8 @@ if [ "$current_timezone" != "CST" ]; then
   sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   echo "Asia/Shanghai" | sudo tee /etc/timezone
   echo "时区已设置为中国时区"
+  # 更改日期显示格式
+  echo "alias date='date \"+%Y-%m-%d %H:%M:%S %Z\"'" >> "$envfile"
 else
   echo "当前已是中国时区 (CST)"
 fi
@@ -72,6 +81,4 @@ if ! getent passwd pi > /dev/null 2>&1; then
   # 添加 sudo 权限
   sudo usermod -aG sudo pi
   echo "pi 用户创建成功，并已添加到 sudo 组"
-else
-  echo "pi 用户已存在"
 fi
