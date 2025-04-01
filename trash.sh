@@ -25,6 +25,7 @@ if ! grep -q "alias rm=" "$envfile"; then
   str2=\${str1##-* } ;
   mv \$str2 \"$trash\" ;
 }" >> "$envfile"
+  echo "alias rmrm=/usr/bin/rm" >> "$envfile"
   echo "alias rm=trash" >> "$envfile"
   echo "请手动重加载: source $envfile"
 fi
