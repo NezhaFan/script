@@ -29,19 +29,19 @@ else
 fi
 
 # 更新包列表
-# echo "正在更新包列表..."
-# if [ "$pkg_manager" = "apt" ]; then
-#   apt update
-# elif [ "$pkg_manager" = "yum" ] || [ "$pkg_manager" = "dnf" ]; then
-#   $pkg_manager check-update
-# elif [ "$pkg_manager" = "apk" ]; then
-#   apk update
-# fi
+echo "正在更新包列表..."
+if [ "$pkg_manager" = "apt" ]; then
+  apt update
+elif [ "$pkg_manager" = "yum" ] || [ "$pkg_manager" = "dnf" ]; then
+  $pkg_manager check-update
+elif [ "$pkg_manager" = "apk" ]; then
+  apk update
+fi
 
 # 安装工具
 echo "开始检查并安装基础工具..."
-# tools="vim wget curl telnet lsof tar zip"
-tools="vim"
+tools="vim wget curl telnet lsof tar zip"
+# tools="vim"
 
 
 # 使用 for 循环遍历空格分隔的字符串
