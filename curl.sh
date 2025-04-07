@@ -33,7 +33,7 @@ fi
 if [ "$method" = "GET" ]; then 
   command="curl '$url'"
 elif [ "$method" == "HEAD" ]; then 
-  command="curl -I $method '$url'"
+  command="curl -I '$url'"
 else
   command="curl -X $method '$url'"
 fi
