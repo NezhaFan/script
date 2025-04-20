@@ -15,15 +15,25 @@ get_cpu_count() {
 get_memory_info() {
     # 获取内存信息（单位KB）
     total_mem_kb=$(grep 'MemTotal' /proc/meminfo | awk '{print $2}')
-    free_mem_kb=$(grep 'MemAvailable' /proc/meminfo | awk '{print $2}')
+    
+    # 尝试获取 MemAvailable，如果不存在则使用替代计算方法
+    if grep -q '^MemAvailable:' /proc/meminfo; then
+        free_mem_kb=$(grep 'MemAvailable' /proc/meminfo | awk '{print $2}')
+    else
+       # 使用 MemFree + Buffers + Cached 计算可用内存
+        mem_free=$(grep '^MemFree:' /proc/meminfo | awk '{print $2}')
+        buffers=$(grep '^Buffers:' /proc/meminfo | awk '{print $2}')
+        cached=$(grep '^Cached:' /proc/meminfo | awk '{print $2}')
+        free_mem_kb=$((mem_free + buffers + cached))
+    fi
 
-    # 转换为MB
-    total_mem_mb=$((total_mem_kb / 1024))
-    free_mem_mb=$((free_mem_kb / 1024))
+    # 转换为GB（保留两位小数）
+    total_mem_gb=$(awk "BEGIN {printf \"%.2f\", ${total_mem_kb}/1024/1024}")
+    free_mem_gb=$(awk "BEGIN {printf \"%.2f\", ${free_mem_kb}/1024/1024}")
 
     # 输出结果
-    echo "总内存: ${total_mem_mb}MB"
-    echo "可用内存: ${free_mem_mb}MB"
+    echo "总内存: ${total_mem_gb}G"
+    echo "可用内存: ${free_mem_gb}G"
 }
 
 # 获取磁盘信息

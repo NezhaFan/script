@@ -49,7 +49,7 @@ for tool in $tools
 do
   if command -v $tool > /dev/null 2>&1
   then
-    # echo "$tool 已经安装，跳过..."
+    echo "$tool 已经安装，跳过..."
   else
     echo "正在安装 $tool..."
     $install_cmd $tool

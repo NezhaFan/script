@@ -67,8 +67,7 @@ if [ "$method" = "POST" -o "$method" = "PUT" ]; then
 fi
 
 # 显示并执行命令
-echo "按回车键执行命令..."
-echo "$command"
+echo "按回车键执行命令: $command"
 read -p "" confirm
 eval "$command && echo"
 
